@@ -1,8 +1,8 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { StatusBar } from 'expo-status-bar';
-import { Dashboard } from './src/screens/Dashboard';
 
 import AppLoading from 'expo-app-loading';
 
@@ -13,7 +13,11 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 
+import { Dashboard } from './src/screens/Dashboard';
+import { Register } from './src/screens/Register';
+
 import globalTheme from './src/global/styles/theme';
+import { CategorySelect } from './src/screens/CategorySelect';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -28,8 +32,8 @@ export default function App() {
 
   return (
     <ThemeProvider theme={globalTheme}>
-      <StatusBar style="auto" />
-      <Dashboard />
+      <StatusBar />
+      <Register />
     </ThemeProvider>
   );
 }
