@@ -4,11 +4,12 @@ import { Container, Title } from './styles';
 
 interface IButtonProps extends TouchableOpacityProps {
   title: string;
+  onPress: () => void;
 }
 
-export function Button({ title, ...rest }: IButtonProps) {
+export function Button({ title, onPress, ...rest }: IButtonProps) {
   return (
-    <Container {...rest}>
+    <Container onPress={onPress} {...rest}>
       <Title>{title}</Title>
     </Container>
   );

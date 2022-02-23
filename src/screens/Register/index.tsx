@@ -63,11 +63,11 @@ export function Register() {
 
   function handleRegister(form: Partial<IFormData>): void {
     if (!transactionType) {
-      return Alert.alert('Erro', 'Selecione o tipo da transação');
+      Alert.alert('Erro', 'Selecione o tipo da transação');
     }
 
     if (category.key === 'category') {
-      return Alert.alert('Erro', 'Selecione uma categoria');
+      Alert.alert('Erro', 'Selecione uma categoria');
     }
 
     const data = {
@@ -77,6 +77,7 @@ export function Register() {
       category: category.key,
     };
 
+    // eslint-disable-next-line no-console
     console.log(data);
   }
 
