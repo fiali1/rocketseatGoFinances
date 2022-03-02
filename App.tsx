@@ -1,10 +1,12 @@
+/* eslint-disable import/extensions */
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
+
 /* eslint-disable camelcase */
+import AppLoading from 'expo-app-loading';
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-
-import { StatusBar } from 'expo-status-bar';
-
-import AppLoading from 'expo-app-loading';
 
 import {
   useFonts,
@@ -12,12 +14,9 @@ import {
   Poppins_500Medium,
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
-
 import { NavigationContainer } from '@react-navigation/native';
 
 import globalTheme from './src/global/styles/theme';
-
-// eslint-disable-next-line import/extensions
 import { AppRoutes } from './src/routes/app.routes';
 
 export default function App() {
@@ -34,7 +33,8 @@ export default function App() {
   return (
     <ThemeProvider theme={globalTheme}>
       <NavigationContainer>
-        <StatusBar />
+        {/* eslint-disable-next-line react/style-prop-object */}
+        <StatusBar style="light" />
         <AppRoutes />
       </NavigationContainer>
     </ThemeProvider>
