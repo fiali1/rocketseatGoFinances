@@ -17,7 +17,9 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 
 import globalTheme from './src/global/styles/theme';
-import { AppRoutes } from './src/routes/app.routes';
+import { AuthProvider } from './src/hooks/auth';
+import { SignIn } from './src/screens/SignIn';
+// import { AppRoutes } from './src/routes/app.routes';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -35,7 +37,9 @@ export default function App() {
       <NavigationContainer>
         {/* eslint-disable-next-line react/style-prop-object */}
         <StatusBar style="light" />
-        <AppRoutes />
+        <AuthProvider value={['Joana']}>
+          <SignIn />
+        </AuthProvider>
       </NavigationContainer>
     </ThemeProvider>
   );
