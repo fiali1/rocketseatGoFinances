@@ -10,6 +10,7 @@ import {
   TransactionCard,
   ITransactionCardProps,
 } from '../../components/TransactionCard';
+import { useAuth } from '../../hooks/auth';
 import {
   Container,
   Header,
@@ -44,14 +45,16 @@ interface IHighlightCardProps {
 }
 
 export function Dashboard() {
-  const dataKey = '@gofinances:transactions';
-
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState<ITransactionListProps[]>([]);
   const [highlightData, setHighlightData] = useState<IHighlightCardProps>(
     {} as IHighlightCardProps,
   );
+
   const theme = useTheme();
+  const { user, signOut } = useAuth();
+
+  const dataKey = `@gofinances:transactions_user:${user.id}`;
 
   function getLastTransactionDate(
     collection: ITransactionListProps[],
@@ -143,7 +146,11 @@ export function Dashboard() {
         'negative',
       );
 
-      const totalTransactionsInterval = `01 a ${latestExpenseTransactions}`;
+      const totalTransactionsInterval = `01 a ${
+        latestExpenseTransactions !== ''
+          ? latestExpenseTransactions
+          : latestIncomeTransactions
+      }`;
 
       const highlightDataFormatted: IHighlightCardProps = {
         income: {
@@ -189,18 +196,14 @@ export function Dashboard() {
           <Header>
             <UserWrapper>
               <UserInfo>
-                <Photo
-                  source={{
-                    uri: 'https://assets.nintendo.com/image/upload/c_pad,f_auto,h_490,q_auto,w_360/ncom/en_US/games/switch/r/rain-world-switch/description-image?v=2021120411',
-                  }}
-                />
+                <Photo source={{ uri: user.picture }} />
                 <User>
                   <UserGreeting>Olá,</UserGreeting>
-                  <UserName>Josney</UserName>
+                  <UserName>{user.name}</UserName>
                 </User>
               </UserInfo>
               {/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
-              <LogoutButton onPress={() => {}}>
+              <LogoutButton onPress={signOut}>
                 <Icon name="power" />
               </LogoutButton>
             </UserWrapper>
@@ -210,13 +213,21 @@ export function Dashboard() {
             <HighlightCard
               title="Entradas"
               amount={highlightData.income.amount}
-              lastTransaction={`Última entrada dia ${highlightData.income.latestTransaction}`}
+              lastTransaction={`Última entrada ${
+                highlightData.income.latestTransaction !== ''
+                  ? `dia ${highlightData.income.latestTransaction}`
+                  : 'não definida'
+              }`}
               type="up"
             />
             <HighlightCard
               title="Saídas"
               amount={highlightData.expenses.amount}
-              lastTransaction={`Última saída dia ${highlightData.expenses.latestTransaction}`}
+              lastTransaction={`Última saída ${
+                highlightData.expenses.latestTransaction !== ''
+                  ? `dia ${highlightData.expenses.latestTransaction}`
+                  : 'não definida'
+              }`}
               type="down"
             />
             <HighlightCard

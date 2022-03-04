@@ -1,5 +1,8 @@
-import React from 'react';
+/* eslint-disable react/jsx-no-bind */
+import React, { useState } from 'react';
+import { ActivityIndicator, Alert, Platform } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { useTheme } from 'styled-components';
 
 import AppleSVG from '../../assets/apple.svg';
 import GoogleSVG from '../../assets/google.svg';
@@ -17,9 +20,32 @@ import {
 } from './styles';
 
 export function SignIn() {
-  const data = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
-  console.log(data);
+  const { signInWithGoogle } = useAuth();
+  const theme = useTheme();
+
+  const platform = Platform.OS;
+
+  async function handleSignInWithGoogle() {
+    try {
+      setIsLoading(true);
+      await signInWithGoogle();
+    } catch (error) {
+      Alert.alert('Não foi possível conectar à conta Google.');
+      setIsLoading(false);
+    }
+  }
+
+  async function handleSignInWithApple() {
+    try {
+      setIsLoading(true);
+      await handleSignInWithApple();
+    } catch (error) {
+      Alert.alert('Não foi possível conectar à conta Apple.');
+      setIsLoading(false);
+    }
+  }
 
   return (
     <Container>
@@ -36,9 +62,27 @@ export function SignIn() {
       </Header>
       <Footer>
         <FooterWrapper>
-          <SignInSocialButton title="Entrar com Google" svg={GoogleSVG} />
-          <SignInSocialButton title="Entrar com Apple" svg={AppleSVG} />
+          <SignInSocialButton
+            title="Entrar com Google"
+            svg={GoogleSVG}
+            onPress={handleSignInWithGoogle}
+          />
+          {platform === 'ios' && (
+            <SignInSocialButton
+              title="Entrar com Apple"
+              svg={AppleSVG}
+              onPress={handleSignInWithApple}
+            />
+          )}
         </FooterWrapper>
+
+        {isLoading && (
+          <ActivityIndicator
+            color={theme.colors.primary}
+            size="large"
+            style={{ marginTop: 24 }}
+          />
+        )}
       </Footer>
     </Container>
   );

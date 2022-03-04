@@ -17,6 +17,7 @@ import { CategorySelectButton } from '../../components/CategorySelectButton';
 import { Button } from '../../components/Forms/Button';
 import { InputForm } from '../../components/Forms/InputForm';
 import { TransactionTypeButton } from '../../components/Forms/TransactionTypeButton';
+import { useAuth } from '../../hooks/auth';
 import { CategorySelect } from '../CategorySelect';
 import {
   Container,
@@ -41,14 +42,14 @@ const schema = Yup.object().shape({
 });
 
 export function Register() {
-  const dataKey = '@gofinances:transactions';
-
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [category, setCategory] = useState({
     key: 'category',
     name: 'Categoria',
   });
+
+  const { user } = useAuth();
 
   const {
     control,
@@ -60,6 +61,8 @@ export function Register() {
   });
 
   const { navigate }: NavigationProp<ParamListBase> = useNavigation();
+
+  const dataKey = `@gofinances:transactions_user:${user.id}`;
 
   function handleTransactionTypeSelection(type: 'positive' | 'negative'): void {
     setTransactionType(type);
@@ -104,7 +107,6 @@ export function Register() {
 
       navigate('Listagem');
     } catch (error) {
-      // console.log(error);
       Alert.alert('Erro', 'Não foi possível salvar a transação');
     }
   }

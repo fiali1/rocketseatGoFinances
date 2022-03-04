@@ -1,5 +1,4 @@
 import { FlatList, FlatListProps, StatusBar } from 'react-native';
-import { BorderlessButton } from 'react-native-gesture-handler';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
@@ -40,6 +39,7 @@ export const UserInfo = styled.View`
 export const Photo = styled.Image`
   width: ${RFValue(48)}px;
   height: ${RFValue(48)}px;
+  border-radius: 4px;
 `;
 
 export const User = styled.View`
@@ -58,7 +58,7 @@ export const UserName = styled.Text`
   font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
-export const LogoutButton = styled(BorderlessButton)``;
+export const LogoutButton = styled.TouchableOpacity``;
 
 export const Icon = styled(Feather)`
   color: ${({ theme }) => theme.colors.secondary};
@@ -102,4 +102,16 @@ export const LoadContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+`;
+
+export const WarningContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const WarningText = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: ${RFValue(18)}px;
+  text-align: center;
 `;

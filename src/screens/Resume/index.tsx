@@ -11,6 +11,7 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { HistoryCard } from '../../components/HistoryCard';
+import { useAuth } from '../../hooks/auth';
 import { categories } from '../../utils/categories';
 import {
   ChartContainer,
@@ -46,6 +47,7 @@ export function Resume() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategory, setTotalByCategory] = useState<CategoryData[]>([]);
 
+  const { user } = useAuth();
   const theme = useTheme();
   const height = useBottomTabBarHeight();
 
@@ -61,7 +63,7 @@ export function Resume() {
   async function loadData() {
     setIsloading(true);
 
-    const dataKey = '@gofinances:transactions';
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted: ITransactionProps[] = response
       ? JSON.parse(response)
